@@ -9,7 +9,7 @@ class Surtidor {
 private:
     int id;
     string region;
-    string categoria; // Categoría de combustible (Regular, Premium, EcoExtra)
+    string categoria;
     float precioPorLitro;
 
 public:
@@ -29,14 +29,14 @@ public:
     }
 
     string getCategoria() const {
-        return categoria; // Método para obtener la categoría de combustible
+        return categoria;
     }
 };
 
 class Tanque {
 private:
-    float capacidad; // Capacidad total del tanque
-    float almacenado; // Litros almacenados en el tanque
+    float capacidad;
+    float almacenado;
 
 public:
     Tanque(float capacidad) : capacidad(capacidad), almacenado(capacidad) {}
@@ -95,7 +95,7 @@ public:
         } else if (categoria == "EcoExtra") {
             return tanqueEcoExtra->verificarFuga(litrosVendidos);
         }
-        return true; // Si la categoría no es válida, consideramos que no hay fugas
+        return true;
     }
 
     float getAlmacenado(const string& categoria) const {
@@ -106,7 +106,7 @@ public:
         } else if (categoria == "EcoExtra") {
             return tanqueEcoExtra->getAlmacenado();
         }
-        return 0; // Si la categoría no es válida
+        return 0;
     }
 };
 
@@ -114,14 +114,14 @@ class EstacionServicio {
 private:
     string nombre;
     Surtidor** surtidores;
-    TanqueCentral* tanqueCentral; // Cambiar a TanqueCentral
+    TanqueCentral* tanqueCentral;
     int numSurtidores;
 
 public:
     EstacionServicio(const string& nombre, int numSurtidores, float capacidadRegular, float capacidadPremium, float capacidadEcoExtra)
         : nombre(nombre), numSurtidores(numSurtidores) {
         surtidores = new Surtidor*[numSurtidores];
-        tanqueCentral = new TanqueCentral(capacidadRegular, capacidadPremium, capacidadEcoExtra); // Inicializar tanque central
+        tanqueCentral = new TanqueCentral(capacidadRegular, capacidadPremium, capacidadEcoExtra);
     }
 
     void agregarSurtidor(int index, Surtidor* surtidor) {
@@ -134,11 +134,11 @@ public:
         if (index >= 0 && index < numSurtidores) {
             return surtidores[index];
         }
-        return nullptr; // Retorna nullptr si el índice no es válido
+        return nullptr;
     }
 
     Surtidor* obtenerSurtidorAleatorio() {
-        int index = rand() % numSurtidores; // Selecciona un surtidor aleatorio
+        int index = rand() % numSurtidores;
         return obtenerSurtidor(index);
     }
 
@@ -149,66 +149,63 @@ public:
             return;
         }
 
-        int litros = rand() % 18 + 3; // Litros entre 3 y 20
+        int litros = rand() % 18 + 3;
         float total = litros * surtidor->getPrecioPorLitro();
 
-        // Vender desde el tanque correspondiente según la categoría
         tanqueCentral->vender(surtidor->getCategoria(), litros);
 
-        cout << "Transacción realizada en " << nombre << endl;
+        cout << "Transaccion realizada en " << nombre << endl;
         cout << "Surtidor ID: " << surtidor->getId() << endl;
-        cout << "Región: " << surtidor->getRegion() << endl;
-        cout << "Categoría: " << surtidor->getCategoria() << endl; // Mostrar categoría
+        cout << "Region: " << surtidor->getRegion() << endl;
+        cout << "Categoria: " << surtidor->getCategoria() << endl;
         cout << "Litros vendidos: " << litros << endl;
         cout << "Total a pagar: " << total << endl;
-        cout << "Método de pago: " << metodoPago << endl; // Mostrar método de pago
+        cout << "Metodo de pago: " << metodoPago << endl;
     }
 
     bool verificarFugas(const string& categoria, int litrosVendidos) {
-        // Verificar fugas en la estación para una categoría específica
-        return tanqueCentral->verificarFugas(categoria, litrosVendidos); // Aquí pasamos los litros vendidos
+        return tanqueCentral->verificarFugas(categoria, litrosVendidos);
     }
 
-    string getNombre() const { // Método para obtener el nombre de la estación
+    string getNombre() const {
         return nombre;
     }
 
     ~EstacionServicio() {
         delete[] surtidores;
-        delete tanqueCentral; // Liberar memoria del tanque central
+        delete tanqueCentral;
     }
 };
 
 class SimuladorVentas {
 public:
     static void realizarVenta(EstacionServicio& estacion) {
-        // Generar un método de pago aleatorio
-        string metodosPago[] = {"Efectivo", "Tarjeta de Débito", "Tarjeta de Crédito"};
-        string metodoPago = metodosPago[rand() % 3]; // Selecciona un método de pago aleatorio
-        estacion.realizarVenta(metodoPago); // Realiza la venta de un surtidor aleatorio
+        string metodosPago[] = {"Efectivo", "Tarjeta de Debito", "Tarjeta de Credito"};
+        string metodoPago = metodosPago[rand() % 3];
+        estacion.realizarVenta(metodoPago);
     }
 };
 
 int main() {
     srand(static_cast<unsigned int>(time(0)));
 
-    // Estación con tanques para Regular, Premium y EcoExtra
-    EstacionServicio estacion("Estación Central", 6, 1000.0, 1000.0, 1000.0); // Capacidad de tanques de 1000 litros
+    EstacionServicio estacion("Estacion Central", 6, 1000.0, 1000.0, 1000.0);
     estacion.agregarSurtidor(0, new Surtidor(1, "Norte", "Regular", 6.000));
     estacion.agregarSurtidor(1, new Surtidor(2, "Centro", "Premium", 5.000));
     estacion.agregarSurtidor(2, new Surtidor(3, "Sur", "EcoExtra", 5.500));
     estacion.agregarSurtidor(3, new Surtidor(4, "Norte", "Premium", 5.300));
     estacion.agregarSurtidor(4, new Surtidor(5, "Centro", "EcoExtra", 5.600));
     estacion.agregarSurtidor(5, new Surtidor(6, "Sur", "Regular", 6.100));
+    estacion.agregarSurtidor(6, new Surtidor(7, "Norte", "EcoExtra", 5.400));
+    estacion.agregarSurtidor(7, new Surtidor(8, "Centro", "Regula", 5.900));
+    estacion.agregarSurtidor(8, new Surtidor(9, "Sur", "Premium", 5.100));
 
-    // Realizar una venta en un surtidor aleatorio
     SimuladorVentas::realizarVenta(estacion);
 
-    // Verificar las fugas para un surtidor y categoría específica
-    if (!estacion.verificarFugas("Regular", 10)) { // Cambia "Regular" y 10 por la cantidad de litros vendidos, si deseas ser más preciso
-        cout << "Se detectó una fuga en la estación: " << estacion.getNombre() << endl;
+    if (!estacion.verificarFugas("Regular", 10)) {
+        cout << "Se detecto una fuga en la estacion: " << estacion.getNombre() << endl;
     } else {
-        cout << "No se detectaron fugas en la estación: " << estacion.getNombre() << endl;
+        cout << "No se detectaron fugas en la estacion: " << estacion.getNombre() << endl;
     }
 
     return 0;
