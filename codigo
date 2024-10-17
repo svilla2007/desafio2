@@ -124,22 +124,22 @@ public:
         tanqueCentral = new TanqueCentral(capacidadRegular, capacidadPremium, capacidadEcoExtra);
     }
 
-    void agregarSurtidor(int index, Surtidor* surtidor) {
-        if (index >= 0 && index < numSurtidores) {
-            surtidores[index] = surtidor;
+    void agregarSurtidor(int posi, Surtidor* surtidor) {
+        if (posi >= 0 && posi < numSurtidores) {
+            surtidores[posi] = surtidor;
         }
     }
 
-    Surtidor* obtenerSurtidor(int index) {
-        if (index >= 0 && index < numSurtidores) {
-            return surtidores[index];
+    Surtidor* obtenerSurtidor(int posi) {
+        if (posi >= 0 && posi < numSurtidores) {
+            return surtidores[posi];
         }
         return nullptr;
     }
 
     Surtidor* obtenerSurtidorAleatorio() {
-        int index = rand() % numSurtidores;
-        return obtenerSurtidor(index);
+        int posi = rand() % numSurtidores;
+        return obtenerSurtidor(posi);
     }
 
     void realizarVenta(const string& metodoPago) {
@@ -189,7 +189,7 @@ public:
 int main() {
     srand(static_cast<unsigned int>(time(0)));
 
-    EstacionServicio estacion("Estacion Central", 6, 1000.0, 1000.0, 1000.0);
+    EstacionServicio estacion("Estacion Central", 9, 1000.0, 1000.0, 1000.0);
     estacion.agregarSurtidor(0, new Surtidor(1, "Norte", "Regular", 6.000));
     estacion.agregarSurtidor(1, new Surtidor(2, "Centro", "Premium", 5.000));
     estacion.agregarSurtidor(2, new Surtidor(3, "Sur", "EcoExtra", 5.500));
